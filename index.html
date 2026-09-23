@@ -2,8 +2,13 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kilit Ekranı</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Sana Özel Bir Sürpriz ❤️</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+  
   <style>
     * {
       box-sizing: border-box;
@@ -11,160 +16,123 @@
       padding: 0;
       user-select: none;
       -webkit-user-select: none;
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    body {
-      background: linear-gradient(135deg, #2c3e50, #000000);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #ffffff;
-      overflow: hidden;
-    }
-
-    /* Kilit Ekranı Konteyneri */
-    .phone-screen {
+    body, html {
       width: 100%;
-      max-width: 400px;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      padding: 60px 20px 40px 20px;
-      position: relative;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #0b0f19;
+      color: #ffffff;
     }
 
-    /* Üst Başlık & Talimat */
-    .header {
-      text-align: center;
+    /* iOS Glassmorphism styling */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
     }
 
-    .title {
-      font-size: 18px;
-      font-weight: 500;
-      letter-spacing: 0.5px;
-      margin-bottom: 25px;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    .glass-key {
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    /* Şifre Noktaları (Dots) */
-    .dots {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
+    .glass-key:active {
+      background: rgba(255, 255, 255, 0.35);
+      transform: scale(0.92);
     }
 
+    /* Passcode dot indicator styling */
     .dot {
       width: 14px;
       height: 14px;
       border-radius: 50%;
-      border: 2px solid rgba(255, 255, 255, 0.8);
-      transition: all 0.2s ease;
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .dot.filled {
       background-color: #ffffff;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.9);
+      border-color: #ffffff;
     }
 
-    /* Hata Animasyonu */
-    .dots.shake {
-      animation: shake 0.4s ease-in-out;
+    /* Error Shake Animation */
+    .shake {
+      animation: shake 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
     }
 
     @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      20%, 60% { transform: translateX(-10px); }
-      40%, 80% { transform: translateX(10px); }
+      10%, 90% { transform: translate3d(-2px, 0, 0); }
+      20%, 80% { transform: translate3d(4px, 0, 0); }
+      30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
+      40%, 60% { transform: translate3d(6px, 0, 0); }
     }
 
-    /* Tuş Takımı */
-    .keypad {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px 25px;
-      margin-bottom: 20px;
+    /* Custom Fonts */
+    .font-handwriting {
+      font-family: 'Caveat', cursive;
     }
 
-    .key {
-      width: 75px;
-      height: 75px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      transition: background 0.15s ease, transform 0.1s ease;
+    .font-serif-title {
+      font-family: 'Playfair Display', serif;
     }
 
-    .key:active {
-      background: rgba(255, 255, 255, 0.4);
-      transform: scale(0.95);
+    /* Background Gradient Glows */
+    .bg-glow-1 {
+      background: radial-gradient(circle at 50% 30%, rgba(255, 182, 193, 0.25) 0%, rgba(15, 23, 42, 0) 70%);
     }
 
-    .key .number {
-      font-size: 28px;
-      font-weight: 400;
+    .bg-glow-2 {
+      background: radial-gradient(circle at 50% 70%, rgba(253, 224, 71, 0.15) 0%, rgba(15, 23, 42, 0) 70%);
     }
 
-    .key .letters {
-      font-size: 9px;
-      letter-spacing: 2px;
-      margin-top: 2px;
-      opacity: 0.8;
-      text-transform: uppercase;
+    /* Heart pulse animation */
+    @keyframes pulse-gentle {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
     }
 
-    /* Gizlenen Başarılı Sürpriz Ekranı */
-    .success-screen {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #ff758c, #ff7eb3);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 30px;
-      text-align: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.6s ease;
-      z-index: 10;
+    .pulse-heart {
+      animation: pulse-gentle 2s infinite ease-in-out;
     }
 
-    .success-screen.active {
-      opacity: 1;
-      pointer-events: all;
+    /* Floating card animation */
+    @keyframes float-slow {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
     }
 
-    .success-screen h1 {
-      font-size: 32px;
-      margin-bottom: 15px;
-    }
-
-    .success-screen p {
-      font-size: 18px;
-      line-height: 1.6;
+    .float-card {
+      animation: float-slow 4s ease-in-out infinite;
     }
   </style>
 </head>
-<body>
+<body class="relative min-h-screen w-full flex items-center justify-center bg-slate-950 text-white">
 
-  <div class="phone-screen">
-    <div class="header">
-      <div class="title" id="status-text">Parolayı Girin</div>
-      <!-- 4 Haneli Şifre için 4 Tane Nokta -->
-      <div class="dots" id="dots">
+  <div id="lock-screen" class="absolute inset-0 z-20 flex flex-col items-center justify-between py-12 px-6 transition-all duration-700 ease-in-out bg-slate-950">
+    
+    <!-- Atmospheric Ambient Lighting -->
+    <div class="absolute inset-0 bg-glow-1 pointer-events-none"></div>
+    
+    <!-- Lock Screen Header -->
+    <div class="z-10 flex flex-col items-center mt-6 space-y-4">
+      <div class="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 mb-2 shadow-inner">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white/90" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+        </svg>
+      </div>
+      <p id="status-text" class="text-sm font-medium tracking-wide text-white/80 transition-colors duration-300">Parolayı Girin</p>
+      
+      <!-- 4 PIN Dots -->
+      <div id="dots-container" class="flex items-center space-x-4 pt-2">
         <div class="dot"></div>
         <div class="dot"></div>
         <div class="dot"></div>
@@ -172,61 +140,136 @@
       </div>
     </div>
 
-    <!-- Tuş Takımı -->
-    <div class="keypad">
-      <div class="key" onclick="pressKey('1')"><span class="number">1</span></div>
-      <div class="key" onclick="pressKey('2')"><span class="number">2</span><span class="letters">ABC</span></div>
-      <div class="key" onclick="pressKey('3')"><span class="number">3</span><span class="letters">DEF</span></div>
-      <div class="key" onclick="pressKey('4')"><span class="number">4</span><span class="letters">GHI</span></div>
-      <div class="key" onclick="pressKey('5')"><span class="number">5</span><span class="letters">JKL</span></div>
-      <div class="key" onclick="pressKey('6')"><span class="number">6</span><span class="letters">MNO</span></div>
-      <div class="key" onclick="pressKey('7')"><span class="number">7</span><span class="letters">PQRS</span></div>
-      <div class="key" onclick="pressKey('8')"><span class="number">8</span><span class="letters">TUV</span></div>
-      <div class="key" onclick="pressKey('9')"><span class="number">9</span><span class="letters">WXYZ</span></div>
-      <div></div>
-      <div class="key" onclick="pressKey('0')"><span class="number">0</span></div>
-      <div class="key" style="background: transparent;" onclick="deleteKey()"><span class="number" style="font-size: 16px;">Sil</span></div>
+    <!-- Keypad Grid -->
+    <div class="z-10 w-full max-w-xs grid grid-cols-3 gap-5 mb-6">
+      <button onclick="pressKey('1')" class="glass-key w-20 h-20 rounded-full flex flex-col items-center justify-center justify-self-center focus:outline-none">
+        <span class="text-2xl font-light">1</span>
+        <span class="text-[9px] tracking-widest opacity-0">.</span>
+      </button>
+      <button onclick="pressKey('2')" class="glass-key w-20 h-20 rounded-full flex flex-col items-center justify-center justify-self-center focus:outline-none">
+        <span class="text-2xl font-light">2</span>
+        <span class="text-[9px] tracking-widest text-white/60 -mt-1">ABC</span>
+      </button>
+      <button onclick="pressKey('3')" class="glass-key w-20 h-20 rounded-full flex flex-col items-center justify-center justify-self-center focus:outline-none">
+        <span class="text-2xl font-light">3</span>
+        <span class="text-[9px] tracking-widest text-white/60 -mt-1">DEF</span>
+      </button>
+      <button onclick="pressKey('4')" class="glass-key w-20 h-20 rounded-full flex flex-col items-center justify-center justify-self-center focus:outline-none">
+        <span class="text-2xl font-light">4</span>
+        <span class="text-[9px] tracking-widest text-white/60 -mt-1">GHI</span>
+      </button>
+      <button onclick="pressKey('5')" class="glass-key w-20 h-20 rounded-full flex flex-col items-center justify-center justify-self-center focus:outline-none">
+        <span class="text-2xl font-light">5</span>
+        <span class="text-[9px] tracking-widest text-white/60 -mt-1">JKL</span>
+      </button>
+      <button onclick="pressKey('6')" class="glass-key w-20 h-20 rounded-full flex flex-col items-center justify-center justify-self-center focus:outline-none">
+        <span class="text-2xl font-light">6</span>
+        <span class="text-[9px] tracking-widest text-white/60 -mt-1">MNO</span>
+      </button>
+      <button onclick="pressKey('7')" class="glass-key w-20 h-20 rounded-full flex flex-col items-center justify-center justify-self-center focus:outline-none">
+        <span class="text-2xl font-light">7</span>
+        <span class="text-[9px] tracking-widest text-white/60 -mt-1">PQRS</span>
+      </button>
+      <button onclick="pressKey('8')" class="glass-key w-20 h-20 rounded-full flex flex-col items-center justify-center justify-self-center focus:outline-none">
+        <span class="text-2xl font-light">8</span>
+        <span class="text-[9px] tracking-widest text-white/60 -mt-1">TUV</span>
+      </button>
+      <button onclick="pressKey('9')" class="glass-key w-20 h-20 rounded-full flex flex-col items-center justify-center justify-self-center focus:outline-none">
+        <span class="text-2xl font-light">9</span>
+        <span class="text-[9px] tracking-widest text-white/60 -mt-1">WXYZ</span>
+      </button>
+      <div class="w-20 h-20"></div>
+      <button onclick="pressKey('0')" class="glass-key w-20 h-20 rounded-full flex flex-col items-center justify-center justify-self-center focus:outline-none">
+        <span class="text-2xl font-light">0</span>
+      </button>
+      <button onclick="deleteKey()" class="w-20 h-20 rounded-full flex items-center justify-center justify-self-center text-sm font-medium text-white/80 active:text-white focus:outline-none">
+        Sil
+      </button>
+    </div>
+  </div>
+
+  <div id="surprise-screen" class="absolute inset-0 z-10 opacity-0 pointer-events-none transition-opacity duration-1000 flex flex-col items-center justify-between p-6 bg-gradient-to-b from-slate-950 via-slate-900 to-amber-950/30 overflow-hidden">
+    
+    <!-- Canvas for Blooming Daisy Petals & Floating Glow Particle Animation -->
+    <canvas id="flower-canvas" class="absolute inset-0 w-full h-full z-0 cursor-pointer"></canvas>
+
+    <!-- Glowing Top Accent -->
+    <div class="z-10 mt-8 bg-glow-1 w-full h-32 absolute top-0 pointer-events-none"></div>
+
+    <!-- Romantic Card Container -->
+    <div class="z-10 my-auto w-full max-w-sm glass-card rounded-3xl p-8 text-center float-card border border-amber-200/20 backdrop-blur-2xl shadow-2xl relative">
+      
+      <!-- Top Decorative Ribbon/Heart -->
+      <div class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-tr from-amber-400 to-rose-400 text-white shadow-lg mb-6 pulse-heart">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 fill-current" viewBox="0 0 24 24">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+      </div>
+
+      <!-- Main Title -->
+      <h1 class="font-serif-title text-3xl font-semibold bg-gradient-to-r from-amber-200 via-rose-200 to-amber-100 bg-clip-text text-transparent mb-4 leading-tight">
+        Seni Çok Seviyorum! ❤️
+      </h1>
+
+      <!-- Divider line with Daisy SVG icon -->
+      <div class="flex items-center justify-center my-4 space-x-3 opacity-60">
+        <div class="h-px bg-gradient-to-r from-transparent via-amber-200 to-transparent w-16"></div>
+        <span class="text-amber-200 text-xs">🌼</span>
+        <div class="h-px bg-gradient-to-r from-transparent via-amber-200 to-transparent w-16"></div>
+      </div>
+
+      <!-- Romantic Message -->
+      <p class="font-handwriting text-2xl text-amber-100/90 leading-relaxed font-semibold tracking-wide">
+        "Özel tarihimizi unutmadığını biliyordum, iyi ki hayatımdasın!"
+      </p>
+
+      <!-- Subtitle note -->
+      <p class="mt-6 text-xs text-white/50 tracking-wider uppercase">
+        ✨ Ekrana dokunarak yeni papatyalar oluşturabilirsin
+      </p>
     </div>
 
-    <!-- Şifre Doğrulandığında Açılacak İçerik -->
-    <div class="success-screen" id="success-screen">
-      <h1>Seni Çok Seviyorum! ❤️</h1>
-      <p>Özel tarihimizi unutmadığını biliyordum. İyi ki hayatımdasın!</p>
+    <!-- Bottom Romantic Footer Note -->
+    <div class="z-10 mb-4 text-center">
+      <p class="text-xs text-amber-200/60 font-light tracking-widest uppercase">
+        Her Gün Seninle Yeniden 🌼
+      </p>
     </div>
   </div>
 
   <script>
-    // Şifre 4 Haneli Olarak "0408" Yapıldı
-    const CORRECT_PIN = "0408"; 
+    // SECRET PASSCODE (0804)
+    const PASSCODE = "0804";
+    let enteredCode = "";
 
-    let currentInput = "";
-    const dotsContainer = document.getElementById("dots");
+    const lockScreen = document.getElementById("lock-screen");
+    const surpriseScreen = document.getElementById("surprise-screen");
     const statusText = document.getElementById("status-text");
-    const successScreen = document.getElementById("success-screen");
+    const dotsContainer = document.getElementById("dots-container");
 
+    // Passcode Input Handling
     function pressKey(num) {
-      const dots = dotsContainer.querySelectorAll(".dot");
-      if (currentInput.length < CORRECT_PIN.length) {
-        currentInput += num;
+      if (enteredCode.length < PASSCODE.length) {
+        enteredCode += num;
         updateDots();
 
-        if (currentInput.length === CORRECT_PIN.length) {
-          setTimeout(checkPin, 150);
+        if (enteredCode.length === PASSCODE.length) {
+          setTimeout(verifyPasscode, 150);
         }
       }
     }
 
     function deleteKey() {
-      if (currentInput.length > 0) {
-        currentInput = currentInput.slice(0, -1);
+      if (enteredCode.length > 0) {
+        enteredCode = enteredCode.slice(0, -1);
         updateDots();
       }
     }
 
     function updateDots() {
       const dots = dotsContainer.querySelectorAll(".dot");
-      dots.forEach((dot, index) => {
-        if (index < currentInput.length) {
+      dots.forEach((dot, idx) => {
+        if (idx < enteredCode.length) {
           dot.classList.add("filled");
         } else {
           dot.classList.remove("filled");
@@ -234,20 +277,248 @@
       });
     }
 
-    function checkPin() {
-      if (currentInput === CORRECT_PIN) {
-        successScreen.classList.add("active");
-      } else {
-        dotsContainer.classList.add("shake");
-        statusText.innerText = "Yanlış Parola";
+    function verifyPasscode() {
+      if (enteredCode === PASSCODE) {
+        // Correct Passcode -> Transition to Surprise
+        lockScreen.style.opacity = "0";
+        lockScreen.style.transform = "scale(1.05)";
         
         setTimeout(() => {
-          currentInput = "";
+          lockScreen.style.display = "none";
+          surpriseScreen.classList.remove("opacity-0", "pointer-events-none");
+          surpriseScreen.classList.add("opacity-100");
+          initFlowerCanvas(); // Start blooming animation
+        }, 600);
+
+      } else {
+        // Wrong Passcode -> Shake Effect
+        dotsContainer.classList.add("shake");
+        statusText.innerText = "Yanlış Parola";
+        statusText.classList.add("text-rose-400");
+
+        setTimeout(() => {
+          enteredCode = "";
           updateDots();
           dotsContainer.classList.remove("shake");
           statusText.innerText = "Parolayı Girin";
+          statusText.classList.remove("text-rose-400");
         }, 600);
       }
+    }
+
+    /* --- BLOOMING DAISY CANVAS ANIMATION CODE --- */
+    let canvas, ctx;
+    let width, height;
+    let daisies = [];
+    let floatingPetals = [];
+    let particles = [];
+
+    function initFlowerCanvas() {
+      canvas = document.getElementById("flower-canvas");
+      ctx = canvas.getContext("2d");
+
+      resizeCanvas();
+      window.addEventListener("resize", resizeCanvas);
+
+      // Spawn initial background blooming daisies
+      const initialDaisyCount = window.innerWidth < 640 ? 5 : 8;
+      for (let i = 0; i < initialDaisyCount; i++) {
+        const x = Math.random() * width;
+        const y = Math.random() * height;
+        const maxRadius = 25 + Math.random() * 25;
+        daisies.push(new Daisy(x, y, maxRadius));
+      }
+
+      // Spawn floating background particles
+      for (let i = 0; i < 40; i++) {
+        particles.push(new Particle());
+      }
+
+      // Spawn floating petals
+      for (let i = 0; i < 20; i++) {
+        floatingPetals.push(new FloatingPetal());
+      }
+
+      // Click / Touch to spawn new daisy
+      canvas.addEventListener("click", (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        daisies.push(new Daisy(x, y, 30 + Math.random() * 20));
+      });
+
+      requestAnimationFrame(renderCanvasFrame);
+    }
+
+    function resizeCanvas() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+
+    // Daisy Bloom Object
+    class Daisy {
+      constructor(x, y, maxRadius) {
+        this.x = x;
+        this.y = y;
+        this.maxRadius = maxRadius;
+        this.currentScale = 0;
+        this.growthSpeed = 0.015 + Math.random() * 0.01;
+        this.petalCount = 12 + Math.floor(Math.random() * 4);
+        this.angleOffset = Math.random() * Math.PI * 2;
+        this.alpha = 0.85;
+      }
+
+      update() {
+        if (this.currentScale < 1) {
+          this.currentScale += this.growthSpeed;
+          if (this.currentScale > 1) this.currentScale = 1;
+        }
+      }
+
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.angleOffset);
+        ctx.scale(this.currentScale, this.currentScale);
+
+        // Draw White Daisy Petals
+        for (let i = 0; i < this.petalCount; i++) {
+          const angle = (i * 2 * Math.PI) / this.petalCount;
+          ctx.save();
+          ctx.rotate(angle);
+
+          // Petal Gradient
+          const petalGradient = ctx.createLinearGradient(0, 0, 0, this.maxRadius);
+          petalGradient.addColorStop(0, "rgba(255, 255, 255, 0.95)");
+          petalGradient.addColorStop(0.7, "rgba(255, 250, 240, 0.9)");
+          petalGradient.addColorStop(1, "rgba(254, 243, 199, 0.6)");
+
+          ctx.fillStyle = petalGradient;
+          ctx.beginPath();
+          ctx.moveTo(0, 0);
+          ctx.quadraticCurveTo(this.maxRadius * 0.3, this.maxRadius * 0.5, 0, this.maxRadius);
+          ctx.quadraticCurveTo(-this.maxRadius * 0.3, this.maxRadius * 0.5, 0, 0);
+          ctx.fill();
+          ctx.restore();
+        }
+
+        // Draw Yellow Center Disc
+        const centerGradient = ctx.createRadialGradient(0, 0, 2, 0, 0, this.maxRadius * 0.28);
+        centerGradient.addColorStop(0, "#fef08a"); // Bright yellow
+        centerGradient.addColorStop(0.7, "#eab308"); // Golden yellow
+        centerGradient.addColorStop(1, "#ca8a04"); // Deep yellow border
+
+        ctx.beginPath();
+        ctx.arc(0, 0, this.maxRadius * 0.28, 0, Math.PI * 2);
+        ctx.fillStyle = centerGradient;
+        ctx.fill();
+
+        // Subtle glow around center
+        ctx.shadowColor = "rgba(234, 179, 8, 0.5)";
+        ctx.shadowBlur = 10;
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
+        ctx.stroke();
+
+        ctx.restore();
+      }
+    }
+
+    // Floating Petal Animation Object
+    class FloatingPetal {
+      constructor() {
+        this.reset();
+      }
+
+      reset() {
+        this.x = Math.random() * width;
+        this.y = -20;
+        this.size = 8 + Math.random() * 10;
+        this.speedY = 0.5 + Math.random() * 1.2;
+        this.speedX = Math.sin(Math.random() * Math.PI) * 0.8;
+        this.rotation = Math.random() * Math.PI * 2;
+        this.rotSpeed = (Math.random() - 0.5) * 0.02;
+        this.opacity = 0.3 + Math.random() * 0.5;
+      }
+
+      update() {
+        this.y += this.speedY;
+        this.x += Math.sin(this.y * 0.01) * 0.5 + this.speedX;
+        this.rotation += this.rotSpeed;
+
+        if (this.y > height + 20) {
+          this.reset();
+        }
+      }
+
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rotation);
+        ctx.globalAlpha = this.opacity;
+
+        ctx.fillStyle = "#fffbeb";
+        ctx.beginPath();
+        ctx.ellipse(0, 0, this.size * 0.4, this.size, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    // Ambient Glowing Particle Class
+    class Particle {
+      constructor() {
+        this.reset();
+      }
+
+      reset() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.radius = 1 + Math.random() * 2.5;
+        this.alpha = 0.2 + Math.random() * 0.6;
+        this.speedY = -0.2 - Math.random() * 0.4;
+      }
+
+      update() {
+        this.y += this.speedY;
+        if (this.y < 0) this.reset();
+      }
+
+      draw() {
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(253, 224, 71, ${this.alpha})`;
+        ctx.shadowColor = "rgba(253, 224, 71, 0.8)";
+        ctx.shadowBlur = 8;
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    // Main Canvas Render Loop
+    function renderCanvasFrame() {
+      ctx.clearRect(0, 0, width, height);
+
+      // Render glowing background particles
+      particles.forEach((p) => {
+        p.update();
+        p.draw();
+      });
+
+      // Render blooming daisies
+      daisies.forEach((d) => {
+        d.update();
+        d.draw();
+      });
+
+      // Render drifting petals
+      floatingPetals.forEach((p) => {
+        p.update();
+        p.draw();
+      });
+
+      requestAnimationFrame(renderCanvasFrame);
     }
   </script>
 </body>
