@@ -163,10 +163,8 @@
   <div class="phone-screen">
     <div class="header">
       <div class="title" id="status-text">Parolayı Girin</div>
-      <!-- Şifreniz kaç haneliyse o kadar 'dot' ekleyin. Varsayılan: 6 haneli tarih (GGAAYY) -->
+      <!-- 4 Haneli Şifre için 4 Tane Nokta -->
       <div class="dots" id="dots">
-        <div class="dot"></div>
-        <div class="dot"></div>
         <div class="dot"></div>
         <div class="dot"></div>
         <div class="dot"></div>
@@ -198,17 +196,16 @@
   </div>
 
   <script>
-    // BURAYI DEĞİŞTİRİN: Kız arkadaşının girmesini istediğin tarih veya şifre
-    // Örnek: 14 Şubat 2023 için -> "140223" (6 Haneli)
-    const CORRECT_PIN = "140223"; 
+    // Şifre 4 Haneli Olarak "0408" Yapıldı
+    const CORRECT_PIN = "0408"; 
 
     let currentInput = "";
     const dotsContainer = document.getElementById("dots");
-    const dots = dotsContainer.querySelectorAll(".dot");
     const statusText = document.getElementById("status-text");
     const successScreen = document.getElementById("success-screen");
 
     function pressKey(num) {
+      const dots = dotsContainer.querySelectorAll(".dot");
       if (currentInput.length < CORRECT_PIN.length) {
         currentInput += num;
         updateDots();
@@ -227,6 +224,7 @@
     }
 
     function updateDots() {
+      const dots = dotsContainer.querySelectorAll(".dot");
       dots.forEach((dot, index) => {
         if (index < currentInput.length) {
           dot.classList.add("filled");
@@ -237,10 +235,9 @@
     }
 
     function checkPin() {
-      if (currentInput === 0804) {
-        successScreen.classList.add("seni seviyorum");
+      if (currentInput === CORRECT_PIN) {
+        successScreen.classList.add("active");
       } else {
-        // Hatalı Şifre Efekti
         dotsContainer.classList.add("shake");
         statusText.innerText = "Yanlış Parola";
         
