@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kilit Ekranı</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #2c3e50, #000000);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #ffffff;
+      overflow: hidden;
+    }
+
+    /* Kilit Ekranı Konteyneri */
+    .phone-screen {
+      width: 100%;
+      max-width: 400px;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 60px 20px 40px 20px;
+      position: relative;
+    }
+
+    /* Üst Başlık & Talimat */
+    .header {
+      text-align: center;
+    }
+
+    .title {
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      margin-bottom: 25px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    /* Şifre Noktaları (Dots) */
+    .dots {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+    }
+
+    .dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      transition: all 0.2s ease;
+    }
+
+    .dot.filled {
+      background-color: #ffffff;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    }
+
+    /* Hata Animasyonu */
+    .dots.shake {
+      animation: shake 0.4s ease-in-out;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-10px); }
+      40%, 80% { transform: translateX(10px); }
+    }
+
+    /* Tuş Takımı */
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px 25px;
+      margin-bottom: 20px;
+    }
+
+    .key {
+      width: 75px;
+      height: 75px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: background 0.15s ease, transform 0.1s ease;
+    }
+
+    .key:active {
+      background: rgba(255, 255, 255, 0.4);
+      transform: scale(0.95);
+    }
+
+    .key .number {
+      font-size: 28px;
+      font-weight: 400;
+    }
+
+    .key .letters {
+      font-size: 9px;
+      letter-spacing: 2px;
+      margin-top: 2px;
+      opacity: 0.8;
+      text-transform: uppercase;
+    }
+
+    /* Gizlenen Başarılı Sürpriz Ekranı */
+    .success-screen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 30px;
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s ease;
+      z-index: 10;
+    }
+
+    .success-screen.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .success-screen h1 {
+      font-size: 32px;
+      margin-bottom: 15px;
+    }
+
+    .success-screen p {
+      font-size: 18px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="phone-screen">
+    <div class="header">
+      <div class="title" id="status-text">Parolayı Girin</div>
+      <!-- Şifreniz kaç haneliyse o kadar 'dot' ekleyin. Varsayılan: 6 haneli tarih (GGAAYY) -->
+      <div class="dots" id="dots">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+    </div>
+
+    <!-- Tuş Takımı -->
+    <div class="keypad">
+      <div class="key" onclick="pressKey('1')"><span class="number">1</span></div>
+      <div class="key" onclick="pressKey('2')"><span class="number">2</span><span class="letters">ABC</span></div>
+      <div class="key" onclick="pressKey('3')"><span class="number">3</span><span class="letters">DEF</span></div>
+      <div class="key" onclick="pressKey('4')"><span class="number">4</span><span class="letters">GHI</span></div>
+      <div class="key" onclick="pressKey('5')"><span class="number">5</span><span class="letters">JKL</span></div>
+      <div class="key" onclick="pressKey('6')"><span class="number">6</span><span class="letters">MNO</span></div>
+      <div class="key" onclick="pressKey('7')"><span class="number">7</span><span class="letters">PQRS</span></div>
+      <div class="key" onclick="pressKey('8')"><span class="number">8</span><span class="letters">TUV</span></div>
+      <div class="key" onclick="pressKey('9')"><span class="number">9</span><span class="letters">WXYZ</span></div>
+      <div></div>
+      <div class="key" onclick="pressKey('0')"><span class="number">0</span></div>
+      <div class="key" style="background: transparent;" onclick="deleteKey()"><span class="number" style="font-size: 16px;">Sil</span></div>
+    </div>
+
+    <!-- Şifre Doğrulandığında Açılacak İçerik -->
+    <div class="success-screen" id="success-screen">
+      <h1>Seni Çok Seviyorum! ❤️</h1>
+      <p>Özel tarihimizi unutmadığını biliyordum. İyi ki hayatımdasın!</p>
+    </div>
+  </div>
+
+  <script>
+    // BURAYI DEĞİŞTİRİN: Kız arkadaşının girmesini istediğin tarih veya şifre
+    // Örnek: 14 Şubat 2023 için -> "140223" (6 Haneli)
+    const CORRECT_PIN = "140223"; 
+
+    let currentInput = "";
+    const dotsContainer = document.getElementById("dots");
+    const dots = dotsContainer.querySelectorAll(".dot");
+    const statusText = document.getElementById("status-text");
+    const successScreen = document.getElementById("success-screen");
+
+    function pressKey(num) {
+      if (currentInput.length < CORRECT_PIN.length) {
+        currentInput += num;
+        updateDots();
+
+        if (currentInput.length === CORRECT_PIN.length) {
+          setTimeout(checkPin, 150);
+        }
+      }
+    }
+
+    function deleteKey() {
+      if (currentInput.length > 0) {
+        currentInput = currentInput.slice(0, -1);
+        updateDots();
+      }
+    }
+
+    function updateDots() {
+      dots.forEach((dot, index) => {
+        if (index < currentInput.length) {
+          dot.classList.add("filled");
+        } else {
+          dot.classList.remove("filled");
+        }
+      });
+    }
+
+    function checkPin() {
+      if (currentInput === 0804) {
+        successScreen.classList.add("seni seviyorum");
+      } else {
+        // Hatalı Şifre Efekti
+        dotsContainer.classList.add("shake");
+        statusText.innerText = "Yanlış Parola";
+        
+        setTimeout(() => {
+          currentInput = "";
+          updateDots();
+          dotsContainer.classList.remove("shake");
+          statusText.innerText = "Parolayı Girin";
+        }, 600);
+      }
+    }
+  </script>
+</body>
+</html>
